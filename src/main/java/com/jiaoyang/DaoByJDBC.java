@@ -6,13 +6,9 @@ import java.util.Properties;
 public class DaoByJDBC {
 
     public static final String URL = "jdbc:mysql://localhost:3306/learn_java";
-   // public static final String URL = "jdbc:mysql://localhost:3306/learn_java?useSSL=false&serverTimezone=GMT";
-    public static final String USER = "root";
-    public static final String PASSWORD = "password";
-
-
-
-
+    // public static final String URL = "jdbc:mysql://localhost:3306/learn_java?useSSL=false&serverTimezone=GMT";
+    // public static final String USER = "root";
+    // public static final String PASSWORD = "password";
 
     public static void main(String[] args){
 
