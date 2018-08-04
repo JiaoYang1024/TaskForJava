@@ -14,3 +14,10 @@ java.sql.SQLException: The server time zone value '?D1ú±ê×?ê±??' is unreco
 
 
 java.sql 和 javax.sql 有什么区别
+
+8.4
+fileNotFound
+属性没法加，连接数据库时，除了userName和password，其他属性应该如何添加
+markDirectoryAs 有没有什么实质性作用？还是只是显示的样子变了一下
+markDirectoryAs resourcesRoot之后，就能用ctrl+左键点击进去了。
+beans.xml 文件必须放在resources文件夹下，不能是其他名字的文件夹，不然找不到

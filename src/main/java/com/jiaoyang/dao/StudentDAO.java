@@ -10,8 +10,12 @@ public interface StudentDAO {
 
     public void setDataSource(DataSource ds);
 
-    public void insertRecord(Student student);
+    public void createTable();
+    public void deleteTable();
 
+    public int insertRecord(Student student);
+    public int deleteRecord(String name);
+    public int update(String name,String newName);
     public Student query(String name);
 
     public List<Student> queryAll();
