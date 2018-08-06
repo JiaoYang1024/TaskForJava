@@ -163,7 +163,6 @@ public class DaoByJDBC {
             ptmt.setString(10,student.getWish());
             ptmt.setString(11,student.getSenior());
             ptmt.setString(12,student.getKnowingWay());
-
             ptmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

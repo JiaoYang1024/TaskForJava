@@ -1,22 +1,72 @@
 package com.jiaoyang;
 
+import com.jiaoyang.dao.IStudent;
 import com.jiaoyang.dao.StudentJDBCTemplate;
 import com.jiaoyang.model.Student;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.io.IOException;
+import java.io.Reader;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Hello world!
  *
  */
-public class App 
-{
+public class App {
+
+    private static SqlSessionFactory sqlSessionFactory;
+    private static Reader reader;
+
+
+    static {
+
+        try {
+            reader = Resources.getResourceAsReader("Configure.xml");
+            sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+            sqlSessionFactory.getConfiguration().addMapper(IStudent.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+       // C:\workspace\HelloIdea\src\config\Configure.xml
+    }
+
+    public static SqlSessionFactory getSession(){
+        return sqlSessionFactory;
+    }
+
+
+
     public static void main( String[] args ) {
 
 
+        SqlSession session = sqlSessionFactory.openSession();
 
-        ApplicationContext context = new ClassPathXmlApplicationContext("application-beans.xml");
-        StudentJDBCTemplate jdbcTemplate = (StudentJDBCTemplate) context.getBean("studentJDBCTemplate");
+       /* Student student = session.selectOne(
+                "com.jiaoyang.model.StudentMapper.GetUserByID",1);
+
+        if (student != null){
+            System.out.println(student.toString());
+        }
+*/
+        IStudent iStudent = session.getMapper(IStudent.class);
+
+       Student newStudent = iStudent.getUserByName("张飞");
+
+        if (newStudent != null){
+            System.out.println(newStudent.toString());
+        }
+      // iStudent.createTable();
+      // iStudent.insertRecord(new Date().getTime(),new Date().getTime(),"孙悟空",16,"男","教师");
+        session.close();
+        /*ApplicationContext context = new ClassPathXmlApplicationContext("application-beans.xml");
+        StudentJDBCTemplate jdbcTemplate = (StudentJDBCTemplate) context.getBean("studentJDBCTemplate");*/
 
         //jdbcTemplate.deleteTable();
         //jdbcTemplate.createTable();
@@ -40,12 +90,12 @@ public class App
         jdbcTemplate.update("金毛狮王","张无忌1");
         jdbcTemplate.update("白眉鹰王","张无忌2");
         jdbcTemplate.update("紫衫龙王","张无忌3");*/
-       /* List<Student> students =  jdbcTemplate.queryAll();
+        /*List<Student> students =  jdbcTemplate.queryAll();
         for (Student s : students){
             System.out.println(s.toString());
         }*/
-     Student student =  jdbcTemplate.query("金毛狮王");
-        System.out.println(student.toString());
+     /*Student student =  jdbcTemplate.query("金毛狮王");
+        System.out.println(student.toString());*/
 
 
         // DaoByJDBC dao = new DaoByJDBC();

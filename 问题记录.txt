@@ -21,3 +21,7 @@ fileNotFound
 markDirectoryAs 有没有什么实质性作用？还是只是显示的样子变了一下
 markDirectoryAs resourcesRoot之后，就能用ctrl+左键点击进去了。
 beans.xml 文件必须放在resources文件夹下，不能是其他名字的文件夹，不然找不到
+
+
+使用Mybatis时，没有一个rowMapper的东西，来进行数据库中数据和java类的转换。应该是Mybatis自己封装的转换。如果java类里有属性在数据表中找不到
+相应的字段，会自动给该属性，设值为null;
