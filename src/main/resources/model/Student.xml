@@ -4,7 +4,6 @@
 
 <mapper namespace="com.jiaoyang.dao.IStudentss">
 
-
     <select id="GetUserByID" parameterType="int" resultType="Student">
 		select * from `student` where id = #{id}
     </select>
@@ -25,8 +24,6 @@
         age = #{age},
         sex = #{sex},
         job = #{job}
-
-
         WHERE id = #{id}
     </update>
 
@@ -37,27 +34,22 @@
     <select id="query" parameterType="int" resultType="Employee">
 		SELECT * FROM employee WHERE id = #{id}
     </select>
+
     <select id="deleteTable">
 		DROP TABLE employee
     </select>
 
     <select id="createTable">
-
-		CREATE TABLE employee  (
-    ID BIGINT NOT NULL AUTO_INCREMENT,
-    create_at BIGINT NOT NULL,
-    update_at BIGINT NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    age INT  NOT NULL,
-    sex VARCHAR(255)  NOT NULL,
-    job VARCHAR(255)  NOT NULL,
-    PRIMARY KEY(ID)
+        CREATE TABLE employee  (
+        ID BIGINT NOT NULL AUTO_INCREMENT,
+        create_at BIGINT NOT NULL,
+        update_at BIGINT NOT NULL,
+       name VARCHAR(255) NOT NULL,
+       age INT  NOT NULL,
+       sex VARCHAR(255)  NOT NULL,
+       job VARCHAR(255)  NOT NULL,
+       PRIMARY KEY(ID)
     )
     </select>
-
-
-
-
-
 
 </mapper>

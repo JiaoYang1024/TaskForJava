@@ -10,6 +10,8 @@ import java.util.List;
 
 public interface IStudent {
 
+
+
     @Select("SELECT * FROM student WHERE name = #{name}")
     public Student getUserByName(String name);
 
@@ -32,8 +34,8 @@ public interface IStudent {
                     "job VARCHAR(255)  NOT NULL,"+
                     "PRIMARY KEY(ID)"+
                     ")";
-  //  @Select(create)
-    public void createTable();
+//  @Select(create)
+//public void createTable();
 
 
     /*@Select("INSERT INTO employee(name,age,sex,job) VALUES ('#{name}', '#{age}', '#{sex}', '#{job}')")
@@ -42,10 +44,26 @@ public interface IStudent {
 
 
 
-    public void insertUser(Employee user);
-    public void deleteUser(int id);
-    public void update(Employee user);
-    public List<Employee> queryAll();
-    public Employee query(int id);
+    public void createTable();
+
     public void deleteTable();
+
+    public void insertUser(Employee user);
+
+    public void deleteUser(int id);
+
+    public void update(Employee user);
+
+    public List<Employee> queryAll();
+
+    public Employee query(int id);
+
 }
+
+
+
+
+
+
+
+
