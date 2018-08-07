@@ -2,6 +2,7 @@ package com.jiaoyang;
 
 import com.jiaoyang.dao.IStudent;
 import com.jiaoyang.dao.StudentJDBCTemplate;
+import com.jiaoyang.model.Employee;
 import com.jiaoyang.model.Student;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -57,13 +58,29 @@ public class App {
 */
         IStudent iStudent = session.getMapper(IStudent.class);
 
-       Student newStudent = iStudent.getUserByName("张飞");
+      /* Student newStudent = iStudent.getUserByName("张飞");
 
         if (newStudent != null){
             System.out.println(newStudent.toString());
-        }
+        }*/
       // iStudent.createTable();
-      // iStudent.insertRecord(new Date().getTime(),new Date().getTime(),"孙悟空",16,"男","教师");
+      //  Employee zhu = new Employee("猪八戒",22,"男","司机");
+      // iStudent.insertUser(zhu);
+       /* Employee zhang = iStudent.query(2);
+        zhang.setUpdate_at(new Date().getTime());
+        zhang.setJob("挑山工");
+        iStudent.update(zhang);*/
+      // iStudent.deleteUser(1);
+       //
+     /*  List<Employee> employees =iStudent.queryAll();
+       for (Employee e : employees){
+           System.out.println(e.toString());
+       }*/
+     iStudent.insertRecord("唐僧338888");
+        iStudent.insertRecordTest("唐僧366344444444","男");
+        session.commit();
+       // iStudent.deleteTable();
+      //  iStudent.createTable();
         session.close();
         /*ApplicationContext context = new ClassPathXmlApplicationContext("application-beans.xml");
         StudentJDBCTemplate jdbcTemplate = (StudentJDBCTemplate) context.getBean("studentJDBCTemplate");*/

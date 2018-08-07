@@ -4,6 +4,7 @@
 <configuration>
     <typeAliases>
         <typeAlias alias="Student" type="com.jiaoyang.model.Student" />
+        <typeAlias alias="Employee" type="com.jiaoyang.model.Employee" />
     </typeAliases>
     <environments default="development">
         <environment id="development">
