@@ -1,5 +1,6 @@
-package com.jiaoyang.dao;
+package com.jiaoyang.jdbc;
 
+import com.jiaoyang.DaoInterface;
 import com.jiaoyang.model.Student;
 
 import java.sql.*;
@@ -7,11 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-public class DaoByJDBC {
+public class DaoByJDBC implements DaoInterface {
 
     private static final String URL = "jdbc:mysql://localhost:3306/learn_java";
-   // private static final String URL = "
-   // ";
+   // private static final String URL = "jdbc:mysql://localhost:3306/learn_java?useSSL=false&serverTimezone=GMT";
     //private static final String USER = "root";
     //private static final String PASSWORD = "password";
    private Connection   conn;
@@ -37,6 +37,19 @@ public class DaoByJDBC {
     }
 
 
+
+    private void closeConnection(){
+        if (conn != null){
+            try {
+                conn.close();
+                conn = null;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
     public void createTable(){
 
         Statement stmt = null;
@@ -47,7 +60,7 @@ public class DaoByJDBC {
                initConnection();
            }
 
-             stmt =  conn.createStatement();
+           stmt =  conn.createStatement();
 
             StringBuilder sql = new StringBuilder();
             sql.append("CREATE TABLE student ");
@@ -82,19 +95,11 @@ public class DaoByJDBC {
                 }
             }
 
-            if (conn != null){
-                try {
-                    conn.close();
-                    conn = null;
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
-            }
+            closeConnection();
         }
     }
 
-
+    @Override
     public void deleteTable(){
 
         Statement stmt = null;
@@ -124,21 +129,12 @@ public class DaoByJDBC {
                 }
             }
 
-            if (conn != null){
-                try {
-                    conn.close();
-                    conn = null;
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
-            }
+            closeConnection();
         }
     }
 
-    public void insertData(Student student){
-
-
+    @Override
+    public void insertStudent(Student student) {
         PreparedStatement ptmt = null;
 
         try {
@@ -147,8 +143,9 @@ public class DaoByJDBC {
                 initConnection();
             }
 
-            String sql = "INSERT INTO student (create_at, update_at, name, QQ, classType, startTime, originalSchool, studentNo, dailyURL, wish, senior, knowingWay)VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-
+            String sql = "INSERT INTO student (" +
+                    "create_at, update_at, name, QQ, classType, startTime, originalSchool, studentNo, dailyURL, wish, senior, knowingWay" +
+                    ")VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 
             ptmt = conn.prepareStatement(sql);
             ptmt.setLong(1,student.getCreate_at());
@@ -175,23 +172,13 @@ public class DaoByJDBC {
                 }
             }
 
-            if (conn != null){
-                try {
-                    conn.close();
-                    conn = null;
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-
+            closeConnection();
 
         }
-
     }
 
-    public void deleteData(String name){
-
-
+    @Override
+    public void deleteStudent(int id) {
         PreparedStatement ptmt = null;
 
         try {
@@ -200,11 +187,11 @@ public class DaoByJDBC {
                 initConnection();
             }
 
-            String sql = "DELETE FROM student WHERE name = ?";
+            String sql = "DELETE FROM student WHERE id = ?";
 
 
             ptmt = conn.prepareStatement(sql);
-            ptmt.setString(1,name);
+            ptmt.setInt(1,id);
             ptmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -217,22 +204,13 @@ public class DaoByJDBC {
                 }
             }
 
-            if (conn != null){
-                try {
-                    conn.close();
-                    conn = null;
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-
+            closeConnection();
 
         }
-
     }
 
-    public void updateData(String name,String newName){
-
+    @Override
+    public void update(Student student) {
 
         PreparedStatement ptmt = null;
 
@@ -242,12 +220,26 @@ public class DaoByJDBC {
                 initConnection();
             }
 
-            String sql = "UPDATE student SET name = ? WHERE name = ?";
+            String sql = "UPDATE student SET create_at = ?,update_at = ? ,name = ? ,QQ = ? " +
+                    ",classType = ? ,startTime = ? ,originalSchool = ? ,studentNo = ? ,dailyURL = ? " +
+                    ",wish = ? ,senior = ? ,knowingWay = ? WHERE id = ?";
 
 
             ptmt = conn.prepareStatement(sql);
-            ptmt.setString(1,newName);
-            ptmt.setString(2,name);
+
+            ptmt.setLong(1,student.getCreate_at());
+            ptmt.setLong(2,student.getUpdate_at());
+            ptmt.setString(3,student.getName());
+            ptmt.setString(4,student.getQQ());
+            ptmt.setString(5,student.getClassType());
+            ptmt.setString(6,student.getStartTime());
+            ptmt.setString(7,student.getOriginalSchool());
+            ptmt.setString(8,student.getStudentNo());
+            ptmt.setString(9,student.getDailyURL());
+            ptmt.setString(10,student.getWish());
+            ptmt.setString(11,student.getSenior());
+            ptmt.setString(12,student.getKnowingWay());
+            ptmt.setInt(13,student.getId());
             ptmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -260,80 +252,16 @@ public class DaoByJDBC {
                 }
             }
 
-            if (conn != null){
-                try {
-                    conn.close();
-                    conn = null;
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-
+            closeConnection();
 
         }
 
     }
 
-    public Student query(String name){
 
 
-        PreparedStatement ptmt = null;
-        Student student = new Student();
-        try {
 
-            if (conn == null){
-                initConnection();
-            }
-
-            String sql = "SELECT * from student where name = ?";
-
-
-             ptmt = conn.prepareStatement(sql);
-            ptmt.setString(1,name);
-           ResultSet rs = ptmt.executeQuery();
-
-            while (rs.next()){
-                student.setCreate_at(rs.getLong("create_at"));
-                student.setUpdate_at(rs.getLong("update_at"));
-                student.setName(rs.getString("name"));
-                student.setQQ(rs.getString("QQ"));
-                student.setClassType(rs.getString("classType"));
-                student.setStartTime(rs.getString("startTime"));
-                student.setOriginalSchool(rs.getString("originalSchool"));
-                student.setStudentNo(rs.getString("studentNo"));
-                student.setDailyURL(rs.getString("dailyURL"));
-                student.setWish(rs.getString("wish"));
-                student.setSenior(rs.getString("senior"));
-                student.setKnowingWay(rs.getString("knowingWay"));
-            }
-            rs.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (ptmt != null){
-                try {
-                    ptmt.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            if (conn != null){
-                try {
-                    conn.close();
-                    conn = null;
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-
-
-        }
-
-        return student;
-    }
-
-
+    @Override
     public List<Student> queryAll(){
 
         Statement stmt = null;
@@ -353,6 +281,7 @@ public class DaoByJDBC {
 
             while (rs.next()){
                 Student student = new Student();
+                student.setId(rs.getInt("ID"));
                 student.setCreate_at(rs.getLong("create_at"));
                 student.setUpdate_at(rs.getLong("update_at"));
                 student.setName(rs.getString("name"));
@@ -379,20 +308,64 @@ public class DaoByJDBC {
                 }
             }
 
-            if (conn != null){
-                try {
-                    conn.close();
-                    conn = null;
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+            closeConnection();
 
 
         }
 
         return students;
 
+    }
+
+    @Override
+    public Student query(int id) {
+        PreparedStatement ptmt = null;
+        Student student = new Student();
+        try {
+
+            if (conn == null){
+                initConnection();
+            }
+
+            String sql = "SELECT * from student where id = ?";
+
+
+            ptmt = conn.prepareStatement(sql);
+            ptmt.setInt(1,id);
+            ResultSet rs = ptmt.executeQuery();
+
+            while (rs.next()){
+                student.setId(rs.getInt("ID"));
+                student.setCreate_at(rs.getLong("create_at"));
+                student.setUpdate_at(rs.getLong("update_at"));
+                student.setName(rs.getString("name"));
+                student.setQQ(rs.getString("QQ"));
+                student.setClassType(rs.getString("classType"));
+                student.setStartTime(rs.getString("startTime"));
+                student.setOriginalSchool(rs.getString("originalSchool"));
+                student.setStudentNo(rs.getString("studentNo"));
+                student.setDailyURL(rs.getString("dailyURL"));
+                student.setWish(rs.getString("wish"));
+                student.setSenior(rs.getString("senior"));
+                student.setKnowingWay(rs.getString("knowingWay"));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (ptmt != null){
+                try {
+                    ptmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            closeConnection();
+
+        }
+
+        return student;
     }
 
 }

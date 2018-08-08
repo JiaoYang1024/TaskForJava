@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Student {
 
+    private int id;
     private long create_at;
     private long update_at;
     private String name;
@@ -48,6 +49,14 @@ public class Student {
         this.wish = wish;
         this.senior = senior;
         this.knowingWay = knowingWay;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public long getCreate_at() {

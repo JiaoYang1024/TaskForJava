@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiaoyang.mybatis.IStudent">
+
+    <select id="deleteTable">
+		DROP TABLE student
+    </select>
+
+    <select id="createTable">
+    CREATE TABLE student(
+        ID BIGINT NOT NULL AUTO_INCREMENT,
+        create_at BIGINT NOT NULL,
+        update_at BIGINT NOT NULL,
+        name VARCHAR(255) NOT NULL,
+        QQ VARCHAR(255)  NOT NULL,
+        classType VARCHAR(255)  NOT NULL,
+        startTime VARCHAR(255)  NOT NULL,
+        originalSchool VARCHAR(255)  NOT NULL,
+        studentNo VARCHAR(255)  NOT NULL,
+        dailyURL VARCHAR(255)  NOT NULL,
+        wish VARCHAR(255)  NOT NULL,
+        senior VARCHAR(255)  NOT NULL,
+        knowingWay VARCHAR(255)  NOT NULL,
+        PRIMARY KEY(ID)
+        )
+    </select>
+
+    <insert id="insertUser" parameterType="Student">
+		INSERT INTO student (create_at, update_at, name, QQ, classType, startTime,
+                originalSchool, studentNo, dailyURL, wish, senior, knowingWay)
+		VALUES (#{create_at}, #{update_at}, #{name},#{QQ}, #{classType},#{startTime} , #{originalSchool}, #{studentNo}
+		,#{dailyURL}, #{wish},#{senior}, #{knowingWay})
+    </insert>
+
+    <delete id="deleteUser" parameterType="int">
+		DELETE FROM student WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="Student">    <!-- 怎么写两个参数  public void update(int id,String job); ！-->
+		UPDATE student SET
+        create_at = #{create_at},
+        update_at = #{update_at},
+        name = #{name},
+        QQ = #{QQ},
+        classType = #{classType},
+        startTime = #{startTime},
+        originalSchool = #{originalSchool},
+        studentNo = #{studentNo},
+        dailyURL = #{dailyURL},
+        wish = #{wish},
+        senior = #{senior},
+        knowingWay = #{knowingWay}
+        WHERE id = #{id}
+    </update>
+
+    <select id="queryAll"  resultType="Student">
+		SELECT * FROM student
+    </select>
+
+    <select id="query" parameterType="int" resultType="Student">
+		SELECT * FROM student WHERE id = #{id}
+    </select>
+
+</mapper>

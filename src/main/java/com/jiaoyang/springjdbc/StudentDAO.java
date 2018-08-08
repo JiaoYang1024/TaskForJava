@@ -1,4 +1,4 @@
-package com.jiaoyang.dao;
+package com.jiaoyang.springjdbc;
 
 import com.jiaoyang.model.Student;
 
@@ -14,9 +14,9 @@ public interface StudentDAO {
     public void deleteTable();
 
     public int insertRecord(Student student);
-    public int deleteRecord(String name);
-    public int update(String name,String newName);
-    public Student query(String name);
+    public int deleteRecord(int id);
+    public int update(Student student);
+    public Student query(int id);
 
     public List<Student> queryAll();
 

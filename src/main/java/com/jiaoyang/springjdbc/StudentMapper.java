@@ -1,4 +1,4 @@
-package com.jiaoyang.dao;
+package com.jiaoyang.springjdbc;
 
 import com.jiaoyang.model.Student;
 import org.springframework.jdbc.core.RowMapper;
@@ -11,6 +11,7 @@ public class StudentMapper implements RowMapper<Student> {
     @Override
     public Student mapRow(ResultSet rs, int rowNum) throws SQLException {
         Student student = new Student();
+        student.setId(rs.getInt("ID"));
         student.setCreate_at(rs.getLong("create_at"));
         student.setUpdate_at(rs.getLong("update_at"));
         student.setName(rs.getString("name"));

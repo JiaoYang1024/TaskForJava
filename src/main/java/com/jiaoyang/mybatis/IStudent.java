@@ -1,6 +1,6 @@
-package com.jiaoyang.dao;
+package com.jiaoyang.mybatis;
 
-import com.jiaoyang.model.Employee;
+
 import com.jiaoyang.model.Student;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
@@ -11,8 +11,7 @@ import java.util.List;
 public interface IStudent {
 
 
-
-    @Select("SELECT * FROM student WHERE name = #{name}")
+    /*@Select("SELECT * FROM student WHERE name = #{name}")
     public Student getUserByName(String name);
 
 
@@ -34,29 +33,23 @@ public interface IStudent {
                     "job VARCHAR(255)  NOT NULL,"+
                     "PRIMARY KEY(ID)"+
                     ")";
-//  @Select(create)
-//public void createTable();
-
-
-    /*@Select("INSERT INTO employee(name,age,sex,job) VALUES ('#{name}', '#{age}', '#{sex}', '#{job}')")
-    public void insertRecord(String name,int age,String sex,String job);*/
-
-
+    @Select(create)
+    public void createTable();*/
 
 
     public void createTable();
 
     public void deleteTable();
 
-    public void insertUser(Employee user);
+    public void insertUser(Student student);
 
     public void deleteUser(int id);
 
-    public void update(Employee user);
+    public void update(Student student);
 
-    public List<Employee> queryAll();
+    public List<Student> queryAll();
 
-    public Employee query(int id);
+    public Student query(int id);
 
 }
 

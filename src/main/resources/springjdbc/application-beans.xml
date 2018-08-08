@@ -11,7 +11,7 @@
         <property name="username" value="root" />
         <property name="password" value="password"/>
     </bean>
-    <bean id="studentJDBCTemplate" class="com.jiaoyang.dao.StudentJDBCTemplate">
+    <bean id="studentJDBCTemplate" class="com.jiaoyang.springjdbc.StudentJDBCTemplate">
         <property name="dataSource" ref="dataSource" />
     </bean>
 </beans>

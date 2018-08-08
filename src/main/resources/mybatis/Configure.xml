@@ -4,7 +4,6 @@
 <configuration>
     <typeAliases>
         <typeAlias alias="Student" type="com.jiaoyang.model.Student" />
-        <typeAlias alias="Employee" type="com.jiaoyang.model.Employee" />
     </typeAliases>
     <environments default="development">
         <environment id="development">
@@ -19,7 +18,6 @@
     </environments>
 
     <mappers>
-        <!-- // power by http://www.yiibai.com -->
-        <mapper resource="model/Student.xml" />
+        <mapper resource="mybatis/Student.xml" />
     </mappers>
 </configuration>

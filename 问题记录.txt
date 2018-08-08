@@ -25,3 +25,6 @@ beans.xml 文件必须放在resources文件夹下，不能是其他名字的文件夹，不然找不到
 
 使用Mybatis时，没有一个rowMapper的东西，来进行数据库中数据和java类的转换。应该是Mybatis自己封装的转换。如果java类里有属性在数据表中找不到
 相应的字段，会自动给该属性，设值为null;
+
+使用Mybastis时，修改完数据，必须执行session.close(),不然执行的增删改都不会生效，会自动回滚。因为id增大了。例如执行5次insert，但都没有
+session.close()。他会先往数据库里插入，发现没有close后，他会再把数据删除。下一次插入成功后，id会显示6。

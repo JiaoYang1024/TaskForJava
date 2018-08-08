@@ -1,8 +1,7 @@
-package com.jiaoyang.dao;
+package com.jiaoyang.springjdbc;
 
 import com.jiaoyang.model.Student;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementSetter;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -55,35 +54,40 @@ public class StudentJDBCTemplate implements StudentDAO{
     @Override
     public int insertRecord(Student student) {
         String sql = "INSERT INTO student " +
-                "(create_at, update_at, name, QQ, classType, startTime, originalSchool, studentNo, dailyURL, wish, senior, knowingWay)" +
+                "(create_at, update_at, name, QQ, classType, startTime, " +
+                "originalSchool, studentNo, dailyURL, wish, senior, knowingWay)" +
                 "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 
      return  jdbcTemplateObject.update(sql,student.getCreate_at(),
                 student.getUpdate_at(),student.getName(),student.getQQ(),student.getClassType(),
                 student.getStartTime(),student.getOriginalSchool(),student.getStudentNo(),
                 student.getDailyURL(),student.getWish(),student.getSenior(),student.getKnowingWay());
+    }
 
+    @Override
+    public int deleteRecord(int id) {
+        String sql = "DELETE FROM student WHERE id = ?";
+        return jdbcTemplateObject.update(sql,id);
 
     }
 
     @Override
-    public int deleteRecord(String name) {
-        String sql = "DELETE FROM student WHERE name = ?";
-        return jdbcTemplateObject.update(sql,name);
+    public int update(Student student) {
+
+        String sql = "UPDATE student SET create_at = ?,update_at = ? ,name = ? ,QQ = ?" +
+                " ,classType = ? ,startTime = ? ,originalSchool = ? ,studentNo = ? ,dailyURL = ?" +
+                " ,wish = ? ,senior = ? ,knowingWay = ? WHERE id = ?";
+
+        return   jdbcTemplateObject.update(sql,student.getCreate_at(),student.getUpdate_at(),student.getName(),student.getQQ()
+                ,student.getClassType(),student.getStartTime(),student.getOriginalSchool(),student.getStudentNo(),student.getDailyURL()
+                ,student.getWish(),student.getSenior(),student.getKnowingWay(),student.getId());
 
     }
 
     @Override
-    public int update(String newName,String name) {
-        String sql = "UPDATE student SET name = ? WHERE name = ?";
-        return   jdbcTemplateObject.update(sql,newName,name);
-
-    }
-
-    @Override
-    public Student query(String name) {
-        String sql = "SELECT * FROM student WHERE name = ?";
-       Student student =  jdbcTemplateObject.queryForObject(sql,new StudentMapper(),name);
+    public Student query(int id) {
+        String sql = "SELECT * FROM student WHERE id = ?";
+       Student student =  jdbcTemplateObject.queryForObject(sql,new StudentMapper(),id);
         return student;
     }
 
