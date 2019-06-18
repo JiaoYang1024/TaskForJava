@@ -12,8 +12,8 @@ public class DaoByJDBC implements DaoInterface {
 
     private static final String URL = "jdbc:mysql://localhost:3306/learn_java";
    // private static final String URL = "jdbc:mysql://localhost:3306/learn_java?useSSL=false&serverTimezone=GMT";
-    //private static final String USER = "root";
-    //private static final String PASSWORD = "password";
+   // private static final String USER = "root";
+   // private static final String PASSWORD = "password";
    private Connection   conn;
 
 
@@ -28,6 +28,7 @@ public class DaoByJDBC implements DaoInterface {
             properties.setProperty("serverTimezone","GMT");
 
             conn = DriverManager.getConnection(URL,properties);
+            //conn = DriverManager.getConnection(URL,USER,PASSWORD);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
